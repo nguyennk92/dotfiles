@@ -27,28 +27,14 @@ if &term =~ '^xterm'
   autocmd VimLeave * silent !echo -ne "\033]112\007"
 endif
 
-" if exists('$TMUX')
-"   " insert mode
-"   let &t_SI .= "\ePtmux;\e\e[5 q\e\\"
-"   " normal mode
-"   let &t_EI .= "\ePtmux;\e\e[1 q\e\\"
-" 
-"   let &t_ti .= "\ePtmux;\e\e[1 q\e\\"
-"   let &t_te .= "\ePtmux;\e\e[0 q\e\\"
-"   autocmd VimLeave * silent !echo -ne "\033Ptmux;\033\033[0 q\033\\"
-" else 
-"   " insert mode
-"   let &t_SI .= "\e[5 q"
-"   " normal mode
-"   let &t_EI .= "\e[1 q"
-" 
-"   let &t_ti .= "\e[1 q"
-"   let &t_te .= "\e[0 q"
-"   " reset cursor when vim exits
-"   autocmd VimLeave * silent !echo -ne "\033]112\007"
-" endif
-
 set laststatus=2
+" Automatic install
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
 call plug#begin("~/.vim/plugged")
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
