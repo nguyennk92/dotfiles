@@ -80,4 +80,4 @@ precmd() { eval "$PROMPT_COMMAND" }
 export PATH=$PATH:/usr/local/go/bin
 export KEYTIMEOUT=1
 export TERM="xterm-256color"
-alias dotfiles='/usr/bin/git --git-dir=/home/nguyennk/.dotfiles/ --work-tree=/home/nguyennk'
+alias dotfiles="/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
