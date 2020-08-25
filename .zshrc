@@ -81,3 +81,7 @@ export PATH=$PATH:/usr/local/go/bin
 export KEYTIMEOUT=1
 export TERM="xterm-256color"
 alias dotfiles="/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
+
+# less syntax highlight
+export LESSOPEN="| /usr/share/source-highlight/src-hilite-lesspipe.sh %s"
+export LESS=' -R '
