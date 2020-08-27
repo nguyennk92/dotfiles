@@ -29,6 +29,7 @@ endif
 
 set laststatus=2
 map ; :Files<CR>
+map <C-o> :NERDTreeToggle<CR>
 " Automatic install
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
@@ -43,4 +44,5 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
+Plug 'preservim/nerdtree'
 call plug#end()
