@@ -91,7 +91,7 @@ export LESS=' -R '
 
 # Lazyload Node.js - NVM and npm
 lazynvm() {
-  unset -f nvm node npm npx
+  unset -f nvm node npm npx yarn
   export NVM_DIR=~/.nvm
   [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
   nvm use default
@@ -115,4 +115,9 @@ npm() {
 npx() {
   lazynvm
   npx $@
+}
+
+yarn() {
+  lazynvm
+  yarn $@
 }

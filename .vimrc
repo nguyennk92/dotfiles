@@ -48,4 +48,5 @@ Plug 'preservim/nerdtree'
 Plug 'kevinoid/vim-jsonc'
 Plug 'leafgarland/typescript-vim'
 Plug 'prettier/vim-prettier', { 'do': 'yarn install', 'branch': 'release/0.x' }
+Plug 'ycm-core/YouCompleteMe'
 call plug#end()
