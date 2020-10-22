@@ -49,4 +49,5 @@ Plug 'kevinoid/vim-jsonc'
 Plug 'leafgarland/typescript-vim'
 Plug 'prettier/vim-prettier', { 'do': 'yarn install', 'branch': 'release/0.x' }
 Plug 'ycm-core/YouCompleteMe'
+Plug 'tomlion/vim-solidity'
 call plug#end()
