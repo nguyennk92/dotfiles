@@ -41,9 +41,11 @@ fi
 # User configuration
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$HOME/.pyenv/bin:$HOME/.local/bin/:$PATH"
-if command -v pyenv 1>/dev/null 2>&1; then
-    eval "$(pyenv init -)"
-fi
+function load_pyenv() {
+  if command -v pyenv 1>/dev/null 2>&1; then
+      eval "$(pyenv init -)"
+  fi
+}
 export WORKON_HOME=$HOME/Envs
 export VIRTUALENVWRAPPER_SCRIPT=$HOME/.local/bin/virtualenvwrapper.sh
 export PYENV_VIRTUALENVWRAPPER_PREFER_PYVENV="true"
@@ -94,8 +96,12 @@ function load_nvm() {
     [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
     [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
 }
+function load() {
+  load_nvm
+  load_pyenv
+}
 
 # Initialize worker
-async_start_worker nvm_worker -n
-async_register_callback nvm_worker load_nvm
-async_job nvm_worker sleep 0.1
+async_start_worker worker -n
+async_register_callback worker load
+async_job worker sleep 0.01

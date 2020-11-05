@@ -47,7 +47,9 @@ Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 Plug 'preservim/nerdtree'
 Plug 'kevinoid/vim-jsonc'
 Plug 'leafgarland/typescript-vim'
-Plug 'prettier/vim-prettier', { 'do': 'yarn install', 'branch': 'release/0.x' }
+Plug 'prettier/vim-prettier', {
+  \ 'do': 'yarn install && yarn add prettier-plugin-solidity',
+  \ 'branch': 'release/1.x' }
 Plug 'ycm-core/YouCompleteMe'
 Plug 'tomlion/vim-solidity'
 call plug#end()
