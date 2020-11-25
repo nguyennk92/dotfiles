@@ -37,6 +37,8 @@ if empty(glob('~/.vim/autoload/plug.vim'))
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
+let g:prettier#exec_cmd_async = 1
+
 call plug#begin("~/.vim/plugged")
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
