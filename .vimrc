@@ -29,7 +29,9 @@ endif
 
 set laststatus=2
 map ; :Files<CR>
-map <C-o> :NERDTreeToggle<CR>
+map <C-p> :NERDTreeToggle<CR>
+nnoremap <C-g> :YcmCompleter GoTo<CR>
+nnoremap <C-s> :YcmCompleter Format<CR>
 " Automatic install
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
