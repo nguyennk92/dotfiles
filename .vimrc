@@ -28,10 +28,13 @@ if &term =~ '^xterm'
 endif
 
 set laststatus=2
-map ; :Files<CR>
+map , :Files<CR>
 map <C-p> :NERDTreeToggle<CR>
-nnoremap <C-g> :YcmCompleter GoTo<CR>
-nnoremap <C-s> :YcmCompleter Format<CR>
+nnoremap <leader>f :YcmCompleter Format<CR>
+nnoremap <leader>g :YcmCompleter GoTo<CR>
+nnoremap <leader>d :YcmCompleter GetDoc<CR>
+nnoremap <leader>q :YcmCompleter FixIt<CR>
+
 " Automatic install
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
