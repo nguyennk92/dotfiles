@@ -30,6 +30,7 @@ endif
 set laststatus=2
 map , :Files<CR>
 map <C-p> :NERDTreeToggle<CR>
+nnoremap <leader>r :YcmForceCompileAndDiagnostics<CR>
 nnoremap <leader>f :YcmCompleter Format<CR>
 nnoremap <leader>g :YcmCompleter GoTo<CR>
 nnoremap <leader>d :YcmCompleter GetDoc<CR>
