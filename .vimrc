@@ -33,8 +33,11 @@ map <C-p> :NERDTreeToggle<CR>
 nnoremap <leader>r :YcmForceCompileAndDiagnostics<CR>
 nnoremap <leader>f :YcmCompleter Format<CR>
 nnoremap <leader>g :YcmCompleter GoTo<CR>
-nnoremap <leader>d :YcmCompleter GetDoc<CR>
-nnoremap <leader>q :YcmCompleter FixIt<CR>
+nnoremap <leader>2 :YcmCompleter GetDoc<CR>
+nnoremap <leader>1 :YcmCompleter FixIt<CR>
+
+let g:lt_location_list_toggle_map = '<leader>l'
+let g:lt_quickfix_list_toggle_map = '<leader>q'
 
 " Automatic install
 if empty(glob('~/.vim/autoload/plug.vim'))
@@ -44,6 +47,7 @@ if empty(glob('~/.vim/autoload/plug.vim'))
 endif
 
 let g:prettier#exec_cmd_async = 1
+let g:ycm_always_populate_location_list = 1
 
 call plug#begin("~/.vim/plugged")
 Plug 'vim-airline/vim-airline'
@@ -60,4 +64,5 @@ Plug 'prettier/vim-prettier', {
   \ 'branch': 'release/1.x' }
 Plug 'ycm-core/YouCompleteMe'
 Plug 'tomlion/vim-solidity'
+Plug 'Valloric/ListToggle'
 call plug#end()
