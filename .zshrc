@@ -82,7 +82,8 @@ export PROMPT_COMMAND='echo -e -n "\x1b[\x35 q"'
 precmd() { eval "$PROMPT_COMMAND" }
 
 export ANDROID_HOME=$HOME/Android
-export PATH=$PATH:/usr/local/go/bin:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$HOME/go/bin:/usr/local/opt/mysql@5.7/bin
+export JAVA_HOME=/usr/local/opt/openjdk
+export PATH="/usr/local/go/bin:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$JAVA_HOME/bin:$PATH"
 export KEYTIMEOUT=1
 export TERM="xterm-256color"
 alias dotfiles="/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
