@@ -46,7 +46,6 @@ if empty(glob('~/.vim/autoload/plug.vim'))
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
-
 call plug#begin("~/.vim/plugged")
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -64,15 +63,17 @@ Plug 'dense-analysis/ale'
 Plug 'Shougo/deoplete.nvim'
 Plug 'roxma/nvim-yarp'
 Plug 'roxma/vim-hug-neovim-rpc'
+Plug 'Shougo/echodoc.vim'
 call plug#end()
 
 " ALE configuration
+let g:ale_set_balloons = 0
 let g:ale_linters_explicit = 1
 let g:ale_linters = {
       \'go': ['gopls'],
       \}
 let g:ale_fixers = {
-      \'javascript': ['prettier', 'eslint'],
+      \'javascript': ['prettier'],
       \'go': ['goimports'],
       \}
 nnoremap <leader>2 :ALEHover<CR>
@@ -80,8 +81,17 @@ nnoremap <leader>f :ALEFix<CR>
 nnoremap <leader>g :ALEGoToDefinition<CR>
 nnoremap <leader>s :ALESymbolSearch<CR>
 
+" deoplete configuration
 let g:deoplete#enable_at_startup = 1
 call deoplete#custom#option('sources', {
   \ '_': ['ale'],
   \})
+call deoplete#custom#source('_',
+		\ 'max_abbr_width', 0)
+call deoplete#custom#source('_',
+		\ 'max_menu_width', 0)
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+
+" echodoc
+let g:echodoc#enable_at_startup = 1
+let g:echodoc#type = 'popup'
