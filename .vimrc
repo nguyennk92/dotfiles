@@ -1,4 +1,6 @@
-source $VIMRUNTIME/defaults.vim
+if !has('nvim')
+  source $VIMRUNTIME/defaults.vim
+endif
 let g:netrw_liststyle=3
 set shell=zsh
 
@@ -46,6 +48,13 @@ if empty(glob('~/.vim/autoload/plug.vim'))
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
+" Enable completion where available.
+" This setting must be set before ALE is loaded.
+"
+" You should not turn this setting on if you wish to use ALE as a completion
+" source for other completion plugins, like Deoplete.
+let g:ale_completion_enabled = 1
+
 call plug#begin("~/.vim/plugged")
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -60,9 +69,7 @@ Plug 'leafgarland/typescript-vim'
 Plug 'tomlion/vim-solidity'
 Plug 'Valloric/ListToggle'
 Plug 'dense-analysis/ale'
-Plug 'Shougo/deoplete.nvim'
-Plug 'roxma/nvim-yarp'
-Plug 'roxma/vim-hug-neovim-rpc'
+Plug 'prabirshrestha/vim-lsp'
 Plug 'Shougo/echodoc.vim'
 call plug#end()
 
@@ -73,25 +80,29 @@ let g:ale_linters = {
       \'go': ['gopls'],
       \}
 let g:ale_fixers = {
-      \'javascript': ['prettier'],
-      \'go': ['goimports'],
-      \}
+      \'go': ['gofmt'],
+      \'javascript': ['prettier']}
+let g:ale_go_gopls_init_options = {'ui.diagnostic.analyses': {
+      \ 'nilness': v:true,
+      \ 'shadow': v:true,
+      \ }}
+let g:ale_go_gopls_options = ""
+nnoremap <leader>1 :ALECodeAction<CR>
 nnoremap <leader>2 :ALEHover<CR>
 nnoremap <leader>f :ALEFix<CR>
+nnoremap <leader>r :ALEReset<CR>
 nnoremap <leader>g :ALEGoToDefinition<CR>
 nnoremap <leader>s :ALESymbolSearch<CR>
 
-" deoplete configuration
-let g:deoplete#enable_at_startup = 1
-call deoplete#custom#option('sources', {
-  \ '_': ['ale'],
-  \})
-call deoplete#custom#source('_',
-		\ 'max_abbr_width', 0)
-call deoplete#custom#source('_',
-		\ 'max_menu_width', 0)
+set omnifunc=ale#completion#OmniFunc
+let g:ale_completion_autoimport = 1
+
+inoremap <Nul> <C-x><C-o>
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 
-" echodoc
 let g:echodoc#enable_at_startup = 1
-let g:echodoc#type = 'popup'
+if has('nvim')
+  let g:echodoc#type = 'floating'
+else
+  let g:echodoc#type = 'popup'
+endif
