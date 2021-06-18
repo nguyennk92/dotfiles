@@ -30,13 +30,9 @@ if &term =~ '^xterm'
 endif
 
 set laststatus=2
-map , :Files<CR>
-map <C-p> :NERDTreeToggle<CR>
-"nnoremap <leader>r :YcmForceCompileAndDiagnostics<CR>
-"nnoremap <leader>f :YcmCompleter Format<CR>
-"nnoremap <leader>g :YcmCompleter GoTo<CR>
-"nnoremap <leader>2 :YcmCompleter GetDoc<CR>
-"nnoremap <leader>1 :YcmCompleter FixIt<CR>
+nnoremap , :Files<CR>
+nnoremap <lt> :Rg<CR>
+nnoremap <C-p> :NERDTreeToggle<CR>
 
 let g:lt_location_list_toggle_map = '<leader>l'
 let g:lt_quickfix_list_toggle_map = '<leader>q'
@@ -78,7 +74,7 @@ let g:ale_set_balloons = 0
 let g:ale_linters_explicit = 1
 let g:ale_linters = {
       \'go': ['gopls'],
-      \}
+      \'javascript': ['tsserver']}
 let g:ale_fixers = {
       \'go': ['gofmt'],
       \'javascript': ['prettier']}
