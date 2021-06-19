@@ -3,6 +3,7 @@ if !has('nvim')
 endif
 let g:netrw_liststyle=3
 set shell=zsh
+set splitright
 
 set ts=2 sw=2 expandtab
 " Cursor in terminal
@@ -80,7 +81,6 @@ let g:ale_fixers = {
       \'javascript': ['prettier']}
 let g:ale_go_gopls_init_options = {'ui.diagnostic.analyses': {
       \ 'nilness': v:true,
-      \ 'shadow': v:true,
       \ }}
 let g:ale_go_gopls_options = ""
 nnoremap <leader>1 :ALECodeAction<CR>
@@ -102,3 +102,6 @@ if has('nvim')
 else
   let g:echodoc#type = 'popup'
 endif
+
+runtime macros/matchit.vim
+filetype plugin on
