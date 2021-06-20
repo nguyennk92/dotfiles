@@ -32,7 +32,7 @@ endif
 
 set laststatus=2
 nnoremap , :Files<CR>
-nnoremap <lt> :Rg<CR>
+nnoremap ; :Rg<CR>
 nnoremap <C-p> :NERDTreeToggle<CR>
 
 let g:lt_location_list_toggle_map = '<leader>l'
@@ -44,13 +44,6 @@ if empty(glob('~/.vim/autoload/plug.vim'))
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
-
-" Enable completion where available.
-" This setting must be set before ALE is loaded.
-"
-" You should not turn this setting on if you wish to use ALE as a completion
-" source for other completion plugins, like Deoplete.
-let g:ale_completion_enabled = 1
 
 call plug#begin("~/.vim/plugged")
 Plug 'vim-airline/vim-airline'
@@ -67,33 +60,37 @@ Plug 'tomlion/vim-solidity'
 Plug 'Valloric/ListToggle'
 Plug 'dense-analysis/ale'
 Plug 'prabirshrestha/vim-lsp'
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
+Plug 'rhysd/vim-lsp-ale'
 Plug 'Shougo/echodoc.vim'
 call plug#end()
 
+" LSP configurations for vim-lsp
+if executable('gopls')
+    autocmd User lsp_setup call lsp#register_server({
+        \   'name': 'gopls',
+        \   'cmd': ['gopls'],
+        \   'allowlist': ['go', 'gomod'],
+        \ })
+endif
+let g:lsp_document_code_action_signs_enabled = 0
+imap <Nul> <Plug>(asyncomplete_force_refresh)
+
 " ALE configuration
-let g:ale_set_balloons = 0
 let g:ale_linters_explicit = 1
 let g:ale_linters = {
-      \'go': ['gopls'],
-      \'javascript': ['tsserver']}
+      \'_': ['vim-lsp']}
 let g:ale_fixers = {
       \'go': ['gofmt'],
       \'javascript': ['prettier']}
-let g:ale_go_gopls_init_options = {'ui.diagnostic.analyses': {
-      \ 'nilness': v:true,
-      \ }}
-let g:ale_go_gopls_options = ""
-nnoremap <leader>1 :ALECodeAction<CR>
-nnoremap <leader>2 :ALEHover<CR>
+nnoremap <leader>1 :LspCodeAction<CR>
+nnoremap <leader>2 :LspHover<CR>
 nnoremap <leader>f :ALEFix<CR>
-nnoremap <leader>r :ALEReset<CR>
-nnoremap <leader>g :ALEGoToDefinition<CR>
-nnoremap <leader>s :ALESymbolSearch<CR>
+nnoremap <leader>r :ALEStop<CR>:ALELint<CR>
+nnoremap <leader>g :LspDefinition<CR>
+nnoremap <leader>s :LspWorkspaceSymbol<CR>
 
-set omnifunc=ale#completion#OmniFunc
-let g:ale_completion_autoimport = 1
-
-inoremap <Nul> <C-x><C-o>
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 
 let g:echodoc#enable_at_startup = 1
