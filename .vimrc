@@ -75,12 +75,18 @@ if executable('gopls')
         \ })
 endif
 let g:lsp_document_code_action_signs_enabled = 0
+let g:lsp_document_highlight_enabled = 0
+let g:lsp_fold_enabled = 0
+let g:lsp_semantic_enabled = 0
+let g:lsp_text_edit_enabled = 0
+let g:lsp_use_lua = has('nvim-0.4.0') || (has('lua') && has('patch-8.2.0775'))
 imap <Nul> <Plug>(asyncomplete_force_refresh)
 
 " ALE configuration
 let g:ale_linters_explicit = 1
 let g:ale_linters = {
-      \'_': ['vim-lsp']}
+      \'_': ['vim-lsp'],
+      \'solidity': ['solc', 'solhint', 'solium']}
 let g:ale_fixers = {
       \'go': ['gofmt'],
       \'javascript': ['prettier']}
