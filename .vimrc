@@ -74,6 +74,14 @@ if executable('gopls')
         \   'allowlist': ['go', 'gomod'],
         \ })
 endif
+if executable('typescript-language-server')
+    autocmd User lsp_setup call lsp#register_server({
+        \   'name': 'tsserver',
+        \   'cmd': { server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']},
+        \   'allowlist': ['javascript', 'javascript.jsx', 'javascriptreact','typescript', 'typescript.jsx', 'typescriptreact'],
+        \ })
+endif
+
 let g:lsp_document_code_action_signs_enabled = 0
 let g:lsp_document_highlight_enabled = 0
 let g:lsp_fold_enabled = 0
@@ -89,7 +97,8 @@ let g:ale_linters = {
       \'solidity': ['solc', 'solhint', 'solium']}
 let g:ale_fixers = {
       \'go': ['gofmt'],
-      \'javascript': ['prettier']}
+      \'javascript': ['prettier'],
+      \'json': ['jq']}
 nnoremap <leader>1 :LspCodeAction<CR>
 nnoremap <leader>2 :LspHover<CR>
 nnoremap <leader>f :ALEFix<CR>
