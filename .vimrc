@@ -54,7 +54,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 Plug 'preservim/nerdtree'
 Plug 'kevinoid/vim-jsonc'
-Plug 'leafgarland/typescript-vim'
+"Plug 'leafgarland/typescript-vim'
 "Plug 'ycm-core/YouCompleteMe'
 Plug 'tomlion/vim-solidity'
 Plug 'Valloric/ListToggle'
@@ -94,11 +94,14 @@ imap <Nul> <Plug>(asyncomplete_force_refresh)
 let g:ale_linters_explicit = 1
 let g:ale_linters = {
       \'_': ['vim-lsp'],
-      \'solidity': ['solc', 'solhint', 'solium']}
+      \'solidity': ['solc']}
 let g:ale_fixers = {
       \'go': ['gofmt'],
-      \'javascript': ['prettier'],
-      \'json': ['jq']}
+      \'javascript': ['prettier-eslint'],
+      \'typescript': ['prettier'],
+      \'json': ['jq'],
+      \'solidity': ['prettier'],
+      \'html': ['prettier']}
 nnoremap <leader>1 :LspCodeAction<CR>
 nnoremap <leader>2 :LspHover<CR>
 nnoremap <leader>f :ALEFix<CR>
