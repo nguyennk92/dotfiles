@@ -54,33 +54,16 @@ Plug 'junegunn/fzf.vim'
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 Plug 'preservim/nerdtree'
 Plug 'kevinoid/vim-jsonc'
-"Plug 'leafgarland/typescript-vim'
-"Plug 'ycm-core/YouCompleteMe'
 Plug 'tomlion/vim-solidity'
 Plug 'Valloric/ListToggle'
 Plug 'dense-analysis/ale'
 Plug 'prabirshrestha/vim-lsp'
+Plug 'mattn/vim-lsp-settings'
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'rhysd/vim-lsp-ale'
 Plug 'Shougo/echodoc.vim'
 call plug#end()
-
-" LSP configurations for vim-lsp
-if executable('gopls')
-    autocmd User lsp_setup call lsp#register_server({
-        \   'name': 'gopls',
-        \   'cmd': ['gopls'],
-        \   'allowlist': ['go', 'gomod'],
-        \ })
-endif
-if executable('typescript-language-server')
-    autocmd User lsp_setup call lsp#register_server({
-        \   'name': 'tsserver',
-        \   'cmd': { server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']},
-        \   'allowlist': ['javascript', 'javascript.jsx', 'javascriptreact','typescript', 'typescript.jsx', 'typescriptreact'],
-        \ })
-endif
 
 let g:lsp_document_code_action_signs_enabled = 0
 let g:lsp_document_highlight_enabled = 0
@@ -101,13 +84,15 @@ let g:ale_fixers = {
       \'typescript': ['prettier'],
       \'json': ['jq'],
       \'solidity': ['prettier'],
-      \'html': ['prettier']}
+      \'html': ['prettier'],
+      \'rust': ['rustfmt']}
 nnoremap <leader>1 :LspCodeAction<CR>
 nnoremap <leader>2 :LspHover<CR>
 nnoremap <leader>f :ALEFix<CR>
 nnoremap <leader>r :ALEStop<CR>:ALELint<CR>
 nnoremap <leader>g :LspDefinition<CR>
 nnoremap <leader>s :LspWorkspaceSymbol<CR>
+vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 

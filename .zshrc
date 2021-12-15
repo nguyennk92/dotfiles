@@ -83,7 +83,7 @@ precmd() { eval "$PROMPT_COMMAND" }
 
 export ANDROID_HOME=$HOME/Android
 export JAVA_HOME=/usr/local/opt/openjdk
-export PATH="/usr/local/go/bin:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$JAVA_HOME/bin:$HOME/go/bin:$PATH"
+export PATH="/usr/local/go/bin:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$JAVA_HOME/bin:$HOME/go/bin:$HOME/.local/share/solana/install/active_release/bin:$PATH"
 export KEYTIMEOUT=1
 export TERM="xterm-256color"
 alias dotfiles="/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
