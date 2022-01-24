@@ -54,24 +54,23 @@ Plug 'junegunn/fzf.vim'
 Plug 'mg979/vim-visual-multi', {'branch': 'master'}
 Plug 'preservim/nerdtree'
 Plug 'kevinoid/vim-jsonc'
-Plug 'tomlion/vim-solidity'
 Plug 'Valloric/ListToggle'
 Plug 'dense-analysis/ale'
 Plug 'prabirshrestha/vim-lsp'
-Plug 'mattn/vim-lsp-settings'
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'rhysd/vim-lsp-ale'
 Plug 'Shougo/echodoc.vim'
+Plug 'mattn/vim-lsp-settings'
 call plug#end()
 
 let g:lsp_document_code_action_signs_enabled = 0
 let g:lsp_document_highlight_enabled = 0
-let g:lsp_fold_enabled = 0
+let g:lsp_fold_enabled = 1
 let g:lsp_semantic_enabled = 0
 let g:lsp_text_edit_enabled = 0
 let g:lsp_use_lua = has('nvim-0.4.0') || (has('lua') && has('patch-8.2.0775'))
-imap <Nul> <Plug>(asyncomplete_force_refresh)
+nmap <plug>() <Plug>(lsp-float-close)
 
 " ALE configuration
 let g:ale_linters_explicit = 1
@@ -88,12 +87,16 @@ let g:ale_fixers = {
       \'rust': ['rustfmt']}
 nnoremap <leader>1 :LspCodeAction<CR>
 nnoremap <leader>2 :LspHover<CR>
+nnoremap <leader>3 :LspImplementation<CR>
 nnoremap <leader>f :ALEFix<CR>
 nnoremap <leader>r :ALEStop<CR>:ALELint<CR>
 nnoremap <leader>g :LspDefinition<CR>
 nnoremap <leader>s :LspWorkspaceSymbol<CR>
+nnoremap <leader>t :LspPreviousDiagnostic<CR>
+nnoremap <leader>y :LspNextDiagnostic<CR>
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
+autocmd FileType qf nnoremap <buffer> <CR> <CR>:cclose<CR>
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 
 let g:echodoc#enable_at_startup = 1
@@ -105,3 +108,8 @@ endif
 
 runtime macros/matchit.vim
 filetype plugin on
+
+" Asyncomplete
+imap <Nul> <Plug>(asyncomplete_force_refresh)
+
+hi Pmenu ctermbg=DarkGray ctermfg=white
