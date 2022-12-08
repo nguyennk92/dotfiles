@@ -15,7 +15,7 @@ set ts=2 sw=2 expandtab
   " Recent versions of xterm (282 or above) also support
   " 5 -> blinking vertical bar
   " 6 -> solid vertical bar
-set timeoutlen=1000
+set timeoutlen=500
 set ttimeoutlen=5
 
 if &term =~ '^xterm'
@@ -62,6 +62,7 @@ Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'rhysd/vim-lsp-ale'
 Plug 'Shougo/echodoc.vim'
 Plug 'mattn/vim-lsp-settings'
+Plug 'tomlion/vim-solidity'
 call plug#end()
 
 let g:lsp_document_code_action_signs_enabled = 0
@@ -78,22 +79,29 @@ let g:ale_linters = {
       \'_': ['vim-lsp'],
       \'solidity': ['solc']}
 let g:ale_fixers = {
+      \'*': ['trim_whitespace'],
       \'go': ['gofmt'],
       \'javascript': ['prettier-eslint'],
       \'typescript': ['prettier'],
       \'json': ['jq'],
+      \'python': ['black'],
       \'solidity': ['prettier'],
       \'html': ['prettier'],
+      \'yaml': ['prettier'],
       \'rust': ['rustfmt']}
 nnoremap <leader>1 :LspCodeAction<CR>
 nnoremap <leader>2 :LspHover<CR>
 nnoremap <leader>3 :LspImplementation<CR>
+nnoremap <leader>4 :LspCallHierarchyIncoming<CR>
+nnoremap <leader>5 :LspCallHierarchyOutgoing<CR>
 nnoremap <leader>f :ALEFix<CR>
 nnoremap <leader>r :ALEStop<CR>:ALELint<CR>
 nnoremap <leader>g :LspDefinition<CR>
 nnoremap <leader>s :LspWorkspaceSymbol<CR>
 nnoremap <leader>t :LspPreviousDiagnostic<CR>
 nnoremap <leader>y :LspNextDiagnostic<CR>
+nnoremap <leader>rn :LspRename<CR>
+nnoremap <leader>c :NERDTreeFind<CR>
 vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
 autocmd FileType qf nnoremap <buffer> <CR> <CR>:cclose<CR>
@@ -113,3 +121,53 @@ filetype plugin on
 imap <Nul> <Plug>(asyncomplete_force_refresh)
 
 hi Pmenu ctermbg=DarkGray ctermfg=white
+
+cnoreabbrev LCHI :LspCallHierarchyIncoming
+cnoreabbrev LCHO :LspCallHierarchyOutgoing
+
+"let g:lsp_log_verbose = 1
+"let g:lsp_log_file = expand('~/vim-lsp.log')
+" for asyncomplete.vim log
+"let g:asyncomplete_log_file = expand('~/asyncomplete.log')
+"
+let g:lsp_settings = {
+  \ "eclipse-jdt-ls": {
+  \   'cmd': [
+  \     'java',
+  \     '-Declipse.application=org.eclipse.jdt.ls.core.id1',
+  \     '-Dosgi.bundles.defaultStartLevel=4',
+  \     '-Declipse.product=org.eclipse.jdt.ls.core.product',
+  \     '-Dlog.level=ALL',
+  \     '-noverify',
+  \     '-Dfile.encoding=UTF-8',
+  \     '-Xmx1G',
+  \     '-jar',
+  \     expand('~/eclipse-jdt-ls/plugins/org.eclipse.equinox.launcher_*.jar'),
+  \     '-configuration',
+  \     expand('~/eclipse-jdt-ls/config_mac'),
+  \     '-data',
+  \     expand('~/eclipse-jdt-ls/workspace')
+  \   ]
+  \ }
+\ }
+" Flux file type
+au BufRead,BufNewFile *.flux        
+set filetype=flux
+
+if executable('flux-lsp')
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'flux lsp',
+        \ 'cmd': {server_info->[&shell, &shellcmdflag, 'flux-lsp']},
+        \ 'whitelist': ['flux'],
+        \ })
+endif
+
+nnoremap <space> za
+au BufNewFile,BufRead *.py
+   \ set tabstop=4 |
+   \ set softtabstop=4 |
+   \ set shiftwidth=4 |
+   \ set textwidth=79 |
+   \ set expandtab |
+   \ set autoindent |
+   \ set fileformat=unix

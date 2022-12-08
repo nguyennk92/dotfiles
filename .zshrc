@@ -74,19 +74,27 @@ export PYENV_VIRTUALENVWRAPPER_PREFER_PYVENV="true"
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias tmux="tmux -2"
+# alias tmux="tmux -2"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 export PROMPT_COMMAND='echo -e -n "\x1b[\x35 q"'
 precmd() { eval "$PROMPT_COMMAND" }
 
+CPU=$(uname -p)
 export ANDROID_HOME=$HOME/Android
-export JAVA_HOME=/usr/local/opt/openjdk
-export PATH="/usr/local/go/bin:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$JAVA_HOME/bin:$HOME/go/bin:$HOME/.local/share/solana/install/active_release/bin:$PATH"
+export JAVA_HOME=$HOME/.sdkman/candidates/java/current
+export PATH="/usr/local/go/bin:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$JAVA_HOME/bin:$HOME/go/bin:$HOME/.local/share/solana/install/active_release/bin:$HOME/apache-maven-3.8.5/bin:$PATH"
+#
+# Prioritize /opt/homebrew when using arm64
+if [[ "$CPU" == "arm" ]]; then
+  export PATH="/opt/homebrew/bin:$PATH"
+fi
+
+export GRADLE_USER_HOME="$HOME/.gradle"
 export KEYTIMEOUT=1
 export TERM="xterm-256color"
-alias dotfiles="/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
+alias dotfiles="git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
 
 # less syntax highlight
 export LESSOPEN="| /usr/share/source-highlight/src-hilite-lesspipe.sh %s"
@@ -107,3 +115,14 @@ function load() {
 async_start_worker worker -n
 async_register_callback worker load
 async_job worker sleep 0.01
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/nguyennk92/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/nguyennk92/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/nguyennk92/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/nguyennk92/google-cloud-sdk/completion.zsh.inc'; fi
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+source <(kubectl completion zsh)
