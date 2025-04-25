@@ -21,7 +21,7 @@ if ! zgen saved; then
 
     # specify plugins here
     zgen oh-my-zsh
-    #zgen oh-my-zsh plugins/git 
+    #zgen oh-my-zsh plugins/git
     #zgen oh-my-zsh plugins/tmux
     zgen load zsh-users/zsh-syntax-highlighting
     zgen load zsh-users/zsh-history-substring-search
@@ -29,10 +29,11 @@ if ! zgen saved; then
     # Load more completion files for zsh from the zsh-lovers github repo.
     zgen load zsh-users/zsh-completions src
 
-    zgen load zsh-users/zsh-autosuggestions 
+    zgen load zsh-users/zsh-autosuggestions
     zgen load romkatv/powerlevel10k powerlevel10k
 
     zgen load mafredri/zsh-async
+    zgen load docker/cli contrib/completion/zsh
 
     # generate the init script from plugins above
     zgen save
@@ -84,7 +85,7 @@ precmd() { eval "$PROMPT_COMMAND" }
 CPU=$(uname -p)
 export ANDROID_HOME=$HOME/Android
 export JAVA_HOME=$HOME/.sdkman/candidates/java/current
-export PATH="/usr/local/go/bin:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$JAVA_HOME/bin:$HOME/go/bin:$HOME/.local/share/solana/install/active_release/bin:$HOME/apache-maven-3.8.5/bin:$PATH"
+export PATH="/opt/homebrew/opt/gnu-tar/libexec/gnubin:/usr/local/go/bin:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$JAVA_HOME/bin:$HOME/go/bin:$HOME/.local/share/solana/install/active_release/bin:$HOME/apache-maven-3.8.5/bin:$PATH"
 #
 # Prioritize /opt/homebrew when using arm64
 if [[ "$CPU" == "arm" ]]; then
@@ -93,7 +94,6 @@ fi
 
 export GRADLE_USER_HOME="$HOME/.gradle"
 export KEYTIMEOUT=1
-export TERM="xterm-256color"
 alias dotfiles="git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
 
 # less syntax highlight
@@ -107,14 +107,19 @@ function load_nvm() {
     [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
 }
 function load() {
-  load_nvm
-  load_pyenv
+  #load_nvm
+  #load_pyenv
 }
 
 # Initialize worker
-async_start_worker worker -n
-async_register_callback worker load
-async_job worker sleep 0.01
+# async_start_worker worker -n
+# async_register_callback worker load
+# async_job worker sleep 0.01
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+source <(kubectl completion zsh)
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/nguyennk92/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/nguyennk92/google-cloud-sdk/path.zsh.inc'; fi
@@ -122,7 +127,7 @@ if [ -f '/Users/nguyennk92/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/nguy
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/nguyennk92/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/nguyennk92/google-cloud-sdk/completion.zsh.inc'; fi
 
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="$HOME/.sdkman"
-[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
-source <(kubectl completion zsh)
+alias cbtd="cbt -project=dev-krystal-wallet -instance=chaindata-bigtable -creds=$HOME/.secret/dataflow.json"
+alias cbtp="cbt -project=production-krystal-wallet -instance=chaindata-bigtable -creds=$HOME/.secret/dataflow_prod.json"
+
+. "$HOME/.local/bin/env"
